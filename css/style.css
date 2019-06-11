@@ -1,0 +1,198 @@
+body {
+    padding-top: 10px;
+    max-width: 450px;
+    margin: 0 auto;
+    height: 100vh;
+    overflow-x: hidden!important;
+    overflow-y: hidden!important;
+}
+.language-switcher {
+    text-align: right;
+    padding: 0 20px;
+    margin-bottom: 5px;
+}
+.language-switcher select {
+    width: 30px;
+    padding: 0;
+    color: #575e6e;
+    text-transform: uppercase;
+    border: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    background-image: url(../imgs/arr.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    font-family: "Avenir";
+    font-size: 15px;
+    background-color: white;
+}
+.language-switcher select:active,
+.language-switcher select:focus,
+.language-switcher select option{
+    outline: 0;
+    border: 0;
+}
+.col-12 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.chat-wrapper {
+    height: 80vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 100%;
+    margin: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+padding-bottom: 10px;
+}
+.chat-header {
+    background-color: #d8d8d8;
+    padding: 15px 20px 20px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+}
+.chat-header .chat-photo {
+    width: 37px;
+    height: 37px;
+    border: 1px solid #979797;
+    background-color: #d8d8d8;
+    border-radius: 50%;
+    margin-right: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+.chat-description {
+    padding-top: 5px;
+    color: #575e6e;
+    font-family: "Avenir";
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+.chat-body {
+    padding: 20px 25px;
+    max-height: 350px;
+    overflow-y: scroll;
+    margin: 0 5px;
+}
+.chat-description span.chat-company {
+    font-size: 10px;
+}
+.message-wrapper.from {
+    display: flex;
+    justify-content: flex-end;
+}
+.message-wrapper.to {
+    display: flex;
+    justify-content: flex-start;
+}
+.message {
+    /*word-break: break-all;*/
+    word-wrap: break-word;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    padding: 7px 7px 12px 5px;
+    display: inline-block;
+    color: #575e6e;
+    font-family: "Avenir";
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03px;
+    max-width: 125px;
+    min-width: 88px;
+    position: relative;
+    margin-bottom: 20px;
+}
+.message-wrapper.from .message:before {
+    position: absolute;
+    top: 100%;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #f3f3f3;
+    border-left: 10px solid transparent;
+    right: 15%;
+}
+.message-wrapper.to .message {
+    background-color: #d8d8d8;
+}
+.message-wrapper.to .message:before {
+    position: absolute;
+    top: 100%;
+    content: '';
+    display: block;
+    border-left: 0px solid transparent;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #d8d8d8;
+    border-right: 10px solid transparent;
+    left: 15%;
+}
+.chat-input {
+    padding: 0 12px;
+    position: relative;
+}
+.chat-input input[type="text"],
+.chat-input input[type="text"]:focus{
+    outline: none;
+    border-radius: 6.666666667px;
+    border: 1.33px solid #979797;
+    display: block;
+    width: 133.333333333%;
+    padding: 10px 13px;
+    color: #575e6e;
+    font-family: "Avenir";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.03px;
+    transform: scale(0.75);
+    transform-origin: left top;
+    margin-bottom: -10px;
+    margin-right: -33.333333333%;
+}
+.chat-input input[type="submit"] {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 10px;
+    height: 18px;
+    border: 0;
+    outline: 0;
+    background-image: url(../imgs/arrow.png);
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+::-webkit-scrollbar{
+    width: 4px;
+}
+::-webkit-scrollbar-track{
+    background: #f9f9f9;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    background-clip: content-box;
+}
+::-webkit-scrollbar-thumb{
+    background: #d1d1d1;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    height: 50px; 
+}
+.container {
+	    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Avis.help</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="fonts/fonts.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+  <select id="lang_choice" @change="changeLang">
+    <option v-for="lang in langs" :value="lang">{{lang}}</option>
+  </select>
+
+  <div class="container">
+      <div class="row">
+          <div class="col-12">
+                <div id="chat" class="chat-wrapper">
+                  <div class="chat-header">
+                    <div class="chat-photo" :style=" 'background-image: url('+ logo +')' "></div>
+                    <p class="chat-description">
+                      <span class="chat-name">{{brName}}</span>
+                      <span class="chat-company">{{userName}}</span>
+                    </p>
+                  </div>
+                  <div class="chat-body">
+                      <div v-for="message in messages" class="message-wrapper" :class="[message.messageSender === topic ? 'from' : 'to']">
+                        <div class="message">{{message.message}}</div>
+                      </div>
+                    <div class="end"></div>
+                  </div>
+                  <div class="chat-input">
+                    <form id="send_message" @submit="sendMessage">
+                      <input type="text" :placeholder="lang.placeholder">
+                      <input type="submit" value="">
+                    </form>
+                  </div>
+
+                </div>
+          </div>
+      </div>
+
+  </div>
+
+  <script src="js/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-scrollto"></script>
+  <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
+  <script src="js/coockie_handler.js"></script>
+  <script src="js/stomp.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
