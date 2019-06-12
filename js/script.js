@@ -4,6 +4,10 @@ const user_defaults = {
 	language: navigator.language.split('-')[0]
 }
 
+var chat_id = atob(urlParams.get('chat'));
+if(localStorage.chat_id){
+	chat_id = localStorage.chat_id;
+}
 
 
 const site_defaults = {
@@ -82,7 +86,7 @@ var chat = new Vue({
 		lang: {}
 	}, 
 	created: function() {
-		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+localStorage.chat_id).then((resp) => {
+		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+chat_id).then((resp) => {
 			this.messages = resp.data.conversations;
 			this.topic = resp.data.topic;
 			this.brName = resp.data.branchName;
@@ -108,8 +112,9 @@ var chat = new Vue({
 		}
 	},
 	mounted: function(){
-		if(urlParams.get('chat') && !localStorage.chat_id){
+		if(urlParams.get('chat')){
 			localStorage.setItem('chat_id', user_defaults.chat_id);
+			history.replaceState( {} , '/', '/' );
 		} else if(!urlParams.get('chat') && !localStorage.chat_id) {
 			location.href = 'https://avis.help/';
 		} else {
@@ -120,7 +125,7 @@ var chat = new Vue({
 
 
 
-var rev_id = localStorage.chat_id;
+var rev_id = chat_id;
 var client;
 connect();
 let message_handler = {
