@@ -3,12 +3,12 @@ const user_defaults = {
 	chat_id: atob(urlParams.get('chat')),
 	language: navigator.language.split('-')[0]
 }
-// coockies.set('user_defaults', btoa(JSON.stringify(user_defaults)))
+
 
 
 const site_defaults = {
 	language: {
-		langs: ['en', 'fr', 'ru'],
+		langs: ['en', 'fr', 'ru', 'ua'],
 		default_lang: 'en',
 		translations_folder: '../translation/',
 		translation_format: '.json',  
@@ -82,13 +82,15 @@ var chat = new Vue({
 		lang: {}
 	}, 
 	created: function() {
-		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+user_defaults.chat_id).then((resp) => {
+		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+localStorage.chat_id).then((resp) => {
 			this.messages = resp.data.conversations;
 			this.topic = resp.data.topic;
 			this.brName = resp.data.branchName;
 			this.userName = resp.data.name;
 			this.logo = resp.data.imgUrl;
 			this.sender = resp.data.sender;
+			// console.log(resp.data.topic);
+
 
 			setTimeout(function(){
 				VueScrollTo.scrollTo('.end', 300, {container: '.chat-body', force: true});
@@ -105,16 +107,25 @@ var chat = new Vue({
 				}
 		}
 	},
+	mounted: function(){
+		if(urlParams.get('chat') && !localStorage.chat_id){
+			localStorage.setItem('chat_id', user_defaults.chat_id);
+		} else if(!urlParams.get('chat') && !localStorage.chat_id) {
+			location.href = 'https://avis.help/';
+		} else {
+			history.replaceState( {} , '/', '/' );
+		}
+	}
 })
 
 
 
-var rev_id = user_defaults.chat_id;
+var rev_id = localStorage.chat_id;
 var client;
 connect();
 let message_handler = {
 	send_message: function(mes){
-		chat.messages.push({message: mes, messageSender: chat.topic});
+		chat.messages.push({message: mes, messageSender: ''});
 
 		let obj = {
 			content: mes,
@@ -129,7 +140,7 @@ let message_handler = {
 
 
 	receive_message: function(mes){
-		chat.messages.push({message: mes, messageSender: ''});
+		chat.messages.push({message: mes, messageSender: chat.topic});
 		VueScrollTo.scrollTo('.end', 300, {container: '.chat-body', force: true});
 	},	
 

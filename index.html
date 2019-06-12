@@ -11,10 +11,11 @@
 </head>
 
 <body>
+  <ul class="language-switcher">
   <select id="lang_choice" @change="changeLang">
     <option v-for="lang in langs" :value="lang" :selected="current_lang === lang ? 'selected' : 'false'">{{lang}}</option>
   </select>
-
+</ul>
   <div class="container">
       <div class="row">
           <div class="col-12">
@@ -27,8 +28,10 @@
                     </p>
                   </div>
                   <div class="chat-body">
-                      <div v-for="message in messages" class="message-wrapper" :class="[message.messageSender === topic ? 'from' : 'to']">
-                        <div class="message">{{message.message}}</div>
+                      <div v-for="message in messages" class="message-wrapper" :class="[message.messageSender === topic ? 'to' : 'from']">
+                        <transition>  
+                          <div class="message">{{message.message}}</div>
+                        </transition>
                       </div>
                     <div class="end"></div>
                   </div>
