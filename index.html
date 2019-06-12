@@ -12,7 +12,7 @@
 
 <body>
   <select id="lang_choice" @change="changeLang">
-    <option v-for="lang in langs" :value="lang">{{lang}}</option>
+    <option v-for="lang in langs" :value="lang" :selected="current_lang === lang ? 'selected' : 'false'">{{lang}}</option>
   </select>
 
   <div class="container">

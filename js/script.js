@@ -3,6 +3,8 @@ const user_defaults = {
 	chat_id: atob(urlParams.get('chat')),
 	language: navigator.language.split('-')[0]
 }
+// coockies.set('user_defaults', btoa(JSON.stringify(user_defaults)))
+
 
 const site_defaults = {
 	language: {
@@ -30,25 +32,41 @@ function get_translations(lang){
 		}
 	}
 	var tr_path = site_defaults.language.get_translation_path(lang_index);
-	var translations = 123;
 	return axios.get(tr_path);
-}
+} 
 
 var lang = new Vue({
 	el: '#lang_choice',
 	data: {
 		langs: site_defaults.language.langs,
+		current_lang: '',
+	},
+	created: function(){
+		if(coockies.get('lang') === undefined){
+			get_translations()
+				.then((resp) => {
+					chat._data.lang = resp.data;
+					this.current_lang = resp.data.lang;
+					coockies.set('lang', user_defaults.language);
+				});
+		} else {
+			get_translations(coockies.get('lang'))
+				.then((resp) => {
+					chat._data.lang = resp.data;
+					this.current_lang = resp.data.lang;
+				});
+		}
 	},
 	methods: {
 		changeLang: function(e){
-			console.log(e.target);
+			get_translations(e.target.value)
+				.then(function(resp){
+					chat._data.lang = resp.data
+					coockies.set('lang', resp.data.lang);
+					this.current_lang = resp.data.lang;
+				})
 		}
-
 	},
-	mounted: function(){
-		// console.log(chat)
-		
-	}
 })
 
 
@@ -64,7 +82,7 @@ var chat = new Vue({
 		lang: {}
 	}, 
 	created: function() {
-		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/514').then((resp) => {
+		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+user_defaults.chat_id).then((resp) => {
 			this.messages = resp.data.conversations;
 			this.topic = resp.data.topic;
 			this.brName = resp.data.branchName;
@@ -75,21 +93,12 @@ var chat = new Vue({
 			setTimeout(function(){
 				VueScrollTo.scrollTo('.end', 300, {container: '.chat-body', force: true});
 			}, 100);
-		});
-
-		get_translations()
-			.then((resp) => {
-				this.lang = resp.data;
-				console.log(this.lang);
-			})
-		
+		});		
 	},
 	methods:{
 		sendMessage: function(e){
 				e.preventDefault();
-
 				let message = e.target.querySelector('input[type="text"]').value;
-				// console.log(message);
 				if(message != ''){
 				   e.target.reset();
 				   message_handler.send_message(message);
@@ -100,7 +109,7 @@ var chat = new Vue({
 
 
 
-var rev_id = 514;
+var rev_id = user_defaults.chat_id;
 var client;
 connect();
 let message_handler = {
@@ -169,9 +178,3 @@ function connect(){
 }, function(){console.log('connection closed')});
 	return client;
 }
-
-//console
-// qs('# send_message').addEventListener('submit', function(e){
-// 	e.preventDefault(); 
-
-// });
