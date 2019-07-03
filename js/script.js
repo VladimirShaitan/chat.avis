@@ -5,8 +5,8 @@ const user_defaults = {
 }
 
 var chat_id = atob(urlParams.get('chat'));
-if(localStorage.chat_id){
-	chat_id = localStorage.chat_id;
+if(sessionStorage.chat_id){
+	chat_id = sessionStorage.chat_id;
 }
 
 
@@ -93,7 +93,7 @@ var chat = new Vue({
 			this.userName = resp.data.name;
 			this.logo = resp.data.imgUrl;
 			this.sender = resp.data.sender;
-			// console.log(resp.data.topic);
+			console.log(resp.data);
 
 
 			setTimeout(function(){
@@ -113,9 +113,9 @@ var chat = new Vue({
 	},
 	mounted: function(){
 		if(urlParams.get('chat')){
-			localStorage.setItem('chat_id', user_defaults.chat_id);
+			sessionStorage.setItem('chat_id', user_defaults.chat_id);
 			history.replaceState( {} , '/', '/' );
-		} else if(!urlParams.get('chat') && !localStorage.chat_id) {
+		} else if(!urlParams.get('chat') && !sessionStorage.chat_id) {
 			location.href = 'https://avis.help/';
 		} else {
 			history.replaceState( {} , '/', '/' );
