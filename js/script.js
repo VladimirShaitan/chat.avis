@@ -86,12 +86,18 @@ var chat = new Vue({
 		lang: {}
 	}, 
 	created: function() {
-		axios.get('http://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+chat_id).then((resp) => {
+		axios.get('https://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/api/v0/chat/getChatHistoryWeb/'+chat_id).then((resp) => {
 			this.messages = resp.data.conversations;
 			this.topic = resp.data.topic;
 			this.brName = resp.data.branchName;
 			this.userName = resp.data.name;
-			this.logo = resp.data.imgUrl;
+
+			if(resp.data.branchLogoUrl){
+				this.logo = resp.data.branchLogoUrl;
+			} else {
+				this.logo = resp.data.imgUrl;
+			}
+			
 			this.sender = resp.data.sender;
 			console.log(resp.data);
 
@@ -160,7 +166,7 @@ let message_handler = {
 
 
 function connect(){	
-	client = Stomp.client('ws://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/ws/websocket');
+	client = Stomp.client('wss://qrticket-env.pymmzmsf4z.eu-west-3.elasticbeanstalk.com/ws/websocket');
 
 	client.ws.addEventListener('open', function(){
 		console.log('connection open');
@@ -194,3 +200,8 @@ function connect(){
 }, function(){console.log('connection closed')});
 	return client;
 }
+
+
+// qs('#send_message').addEventListener('focus', (e) => {
+// 	e.target.qs('input[type="submit"]').back
+// });
